@@ -8,7 +8,7 @@ The inference is based on an adapted Sequential Monte Carlo Approximate Bayesian
 The R-package is written and maintained by Massimiliano Tamborrino (firstname dot secondname at warwick.ac.uk).
 
 # What can you find in the package
-In this package, we provide the code for the nSMC-ABC algorithm (SMC-ABC for network inference) using a Bernoulli proposal for the binary $\{0,1\}$ parameters and a Gaussian kernel proposal for the real-valued ones. The Gaussian proposal is either the canonical version ('standard') or its optimased version ('olcml').  
+In this package, we provide the code for the nSMC-ABC algorithm (SMC-ABC for network inference) using a Bernoulli proposal for the binary $\{0,1\}$ parameters and a Gaussian kernel proposal for the real-valued ones. The Gaussian proposal is either the canonical version ('standard') or its optimased version ('olcm').  
 
 The main routine is "SMCABCnJRNMM_acceptrate.R", which performs nSMC-ABC with automatically decreasing tolerance levels and uniform priors, and user-specified: 1) Gaussian sampler ('standard' or 'olcm'); 2) minimum acceptance rate below which to stop the algorithm
 

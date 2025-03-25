@@ -2,7 +2,6 @@
 
 export(KmatrixgivenLc)
 export(SMCABCnJRNMM_acceptrate)
-export(SMCABCnJRNMM_r1)
 export(abc_distance)
 export(abc_summaries)
 export(abc_summaries_X)

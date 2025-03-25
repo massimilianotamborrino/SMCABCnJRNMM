@@ -64,6 +64,7 @@ SMCABCnJRNMM_acceptrate<- function (data, Pr_cont,stay_prob,extra_model, ABCthre
       Theta0[,1]<- parameters[1:N]
       K<-KmatrixgivenLc(N,parameters[N+1],parameters[N+2])
       Rho<-matrix(parameters[-(1:nfreepar_c)],nrow=N,byrow=T)
+      for(I in 1:N) Rho[I,I]<-Inf
       simdata <- model(N, grid, h, startv, dGamma,dSigma, Theta0,Rho,K); #// simulate from the model
       simdata<- simdata[,seq(1,ndata,by=subsamplingby)]
       summaries_Y<-abc_summaries_X(simdata,T,h,summaries_extra)
@@ -171,6 +172,7 @@ SMCABCnJRNMM_acceptrate<- function (data, Pr_cont,stay_prob,extra_model, ABCthre
           K<-KmatrixgivenLc(N,theta_c[N+1],theta_c[N+2])
           Rhov<-perturb_sample_discrete_(N,hat_p_vec,stay_prob)
           Rhom<-matrix(Rhov,nrow=N,byrow = T)
+          for(I in 1:N) Rhom[I,I]<-Inf
           simdata <- model(N, grid, h, startv, dGamma,dSigma, Theta0,Rhom,K); #// simulate from the model
           simdata<- simdata[,seq(1,ndata,by=subsamplingby)]
           summaries_Y<-abc_summaries_X(simdata,T,h,summaries_extra)
@@ -227,77 +229,78 @@ SMCABCnJRNMM_acceptrate<- function (data, Pr_cont,stay_prob,extra_model, ABCthre
   return(ABCdraws)
 }
 
-
-#'@rdname SMCABCnJRNMM_r1
-#'@title SMCABCnJRNMM_r1
-#'@description SMC-ABC for time-varying thresholds computed as percentiles of ACCEPTED distances with a fixed budget (number of simulations)
-#'@param data observed data
-#'@param Pr_cont Matrix of lower/upper bounds for the uniform priors for the continuous parameters
-#'@param extra_model List with Number of points to simulate N, final time T, grid, time step h, initial position, vector of diagonal entries of the gamma matrix, vector of diagonal entries of the sigma matrix, Theta0
-#'@param ABCthreshold Initial value for the threshold for the guided approach
-#'@param minaccept.rate Lowest acceptance rate after which we stop the algorithm
-## #'@param summ_weights vector with weights of the summaries computed from a pilot study
-#'@param numparticles number of particles to keep
-#'@param attempt number of iteration
-#'@param whichprior choose between 'unif','lognormal' and and 'exp'
-#'@param subsamplingby every how many simulated points the observation should be taken. The default=1, i.e., no subsampling
-#'@export
 #'
-SMCABCnJRNMM_r1<- function (data, Pr_cont,extra_model, ABCthreshold, minaccept.rate, numparticles,
-                                    attempt, whichprior = 'unif',subsamplingby=1)
-{
-  N<-extra_model[[1]]
-  T<-extra_model[[2]]
-  grid<-extra_model[[3]]
-  h<-extra_model[[4]]
-  startv<-extra_model[[5]]
-  dGamma<-extra_model[[6]]
-  dSigma<-extra_model[[7]]
-  Theta0<-extra_model[[8]]
-  ndata<-length(grid)
-
-  #% THE OBSERVED SUMMARIES - Code for the FHN
-  summaries_extra<-abc_summaries_extra(data,T,h)
-  summobs<-abc_summaries_X(data,T,h,summaries_extra)
-  summ_weights<-abc_summaries_weights(summobs,summaries_extra,N)
-  #####
-  nfreepar_c <- N+2# % number of continuous parameters
-  nfreepar_d <- N^2# % number of discrete parameters
-  nfreepar <- nfreepar_c+nfreepar_d# % total number of parameters to be inferred (-N in fact)
-
-  ABCdraws <- matrix(0,nrow=nfreepar,ncol=numparticles); #% will store accepted parameters (for 1 iteration only, not all)
-  nsummaries <- length(summ_weights)#% the number of summary statistics
-  distance_accepted <- matrix(0,nrow=1,ncol=numparticles); #% this is only for the olcm proposal
-  lengthmodel<-length(data)
-  #% initialization: t is the iteration counter
-  t <- 1;
-  numproposals0<-0
-  number_sim<- numparticles/minaccept.rate
-  RES<-foreach(success = 1:numparticles,.combine='rbind',.packages=c('SMCABCnJRNMM')) %dopar% {
-    distance<-ABCthreshold+1
-    numproposals <- 0;
-  #  simsumm_all <- c();
-
-    while(distance >= ABCthreshold & numproposals<number_sim){
-      numproposals <- numproposals +1;
-      parameters <-  problemprior(-1,1,Pr_cont,whichprior);# % propose from the prior
-      Theta0[,1]<- parameters[1:N]
-      K<-KmatrixgivenLc(N,parameters[N+1],parameters[N+2])
-      Rho<-matrix(parameters[-(1:nfreepar_c)],nrow=N,byrow=T)
-      simdata <- model(N, grid, h, startv, dGamma,dSigma, Theta0,Rho,K); #// simulate from the model
-      simdata<- simdata[,seq(1,ndata,by=subsamplingby)]
-      summaries_Y<-abc_summaries_X(simdata,T,h,summaries_extra)
-      simsumm <- abc_summaries(N,summobs,summaries_Y,summaries_extra)
-      # xc <- (t(simsumm)-t(summobs)); #// compute
-      distance <- abc_distance(simsumm,summ_weights,N)#abc_distance(xc,summ_weights,we)
-   #   simsumm_all <-  cbind(simsumm_all,simsumm)
-    }
-    if(numproposals>=number_sim) {list(numproposals);stop('a particle got stucked');}
-    return(list(numproposals,distance,parameters))# return(list(numproposals,distance,parameters,simsumm_all))
-  }
-  eval_time <- toc()
-
-return(RES)}
+#' #'@rdname SMCABCnJRNMM_r1
+#' #'@title SMCABCnJRNMM_r1
+#' #'@description SMC-ABC for time-varying thresholds computed as percentiles of ACCEPTED distances with a fixed budget (number of simulations)
+#' #'@param data observed data
+#' #'@param Pr_cont Matrix of lower/upper bounds for the uniform priors for the continuous parameters
+#' #'@param extra_model List with Number of points to simulate N, final time T, grid, time step h, initial position, vector of diagonal entries of the gamma matrix, vector of diagonal entries of the sigma matrix, Theta0
+#' #'@param ABCthreshold Initial value for the threshold for the guided approach
+#' #'@param minaccept.rate Lowest acceptance rate after which we stop the algorithm
+#' ## #'@param summ_weights vector with weights of the summaries computed from a pilot study
+#' #'@param numparticles number of particles to keep
+#' #'@param attempt number of iteration
+#' #'@param whichprior choose between 'unif','lognormal' and and 'exp'
+#' #'@param subsamplingby every how many simulated points the observation should be taken. The default=1, i.e., no subsampling
+#' #'@export
+#' #'
+#' SMCABCnJRNMM_r1<- function (data, Pr_cont,extra_model, ABCthreshold, minaccept.rate, numparticles,
+#'                                     attempt, whichprior = 'unif',subsamplingby=1)
+#' {
+#'   N<-extra_model[[1]]
+#'   T<-extra_model[[2]]
+#'   grid<-extra_model[[3]]
+#'   h<-extra_model[[4]]
+#'   startv<-extra_model[[5]]
+#'   dGamma<-extra_model[[6]]
+#'   dSigma<-extra_model[[7]]
+#'   Theta0<-extra_model[[8]]
+#'   ndata<-length(grid)
+#'
+#'   #% THE OBSERVED SUMMARIES - Code for the FHN
+#'   summaries_extra<-abc_summaries_extra(data,T,h)
+#'   summobs<-abc_summaries_X(data,T,h,summaries_extra)
+#'   summ_weights<-abc_summaries_weights(summobs,summaries_extra,N)
+#'   #####
+#'   nfreepar_c <- N+2# % number of continuous parameters
+#'   nfreepar_d <- N^2# % number of discrete parameters
+#'   nfreepar <- nfreepar_c+nfreepar_d# % total number of parameters to be inferred (-N in fact)
+#'
+#'   ABCdraws <- matrix(0,nrow=nfreepar,ncol=numparticles); #% will store accepted parameters (for 1 iteration only, not all)
+#'   nsummaries <- length(summ_weights)#% the number of summary statistics
+#'   distance_accepted <- matrix(0,nrow=1,ncol=numparticles); #% this is only for the olcm proposal
+#'   lengthmodel<-length(data)
+#'   #% initialization: t is the iteration counter
+#'   t <- 1;
+#'   numproposals0<-0
+#'   number_sim<- numparticles/minaccept.rate
+#'   RES<-foreach(success = 1:numparticles,.combine='rbind',.packages=c('SMCABCnJRNMM')) %dopar% {
+#'     distance<-ABCthreshold+1
+#'     numproposals <- 0;
+#'   #  simsumm_all <- c();
+#'
+#'     while(distance >= ABCthreshold & numproposals<number_sim){
+#'       numproposals <- numproposals +1;
+#'       parameters <-  problemprior(-1,1,Pr_cont,whichprior);# % propose from the prior
+#'       Theta0[,1]<- parameters[1:N]
+#'       K<-KmatrixgivenLc(N,parameters[N+1],parameters[N+2])
+#'       Rho<-matrix(parameters[-(1:nfreepar_c)],nrow=N,byrow=T)
+#'       for(I in 1:N) Rho[I,I]<-Inf
+#'       simdata <- model(N, grid, h, startv, dGamma,dSigma, Theta0,Rho,K); #// simulate from the model
+#'       simdata<- simdata[,seq(1,ndata,by=subsamplingby)]
+#'       summaries_Y<-abc_summaries_X(simdata,T,h,summaries_extra)
+#'       simsumm <- abc_summaries(N,summobs,summaries_Y,summaries_extra)
+#'       # xc <- (t(simsumm)-t(summobs)); #// compute
+#'       distance <- abc_distance(simsumm,summ_weights,N)#abc_distance(xc,summ_weights,we)
+#'    #   simsumm_all <-  cbind(simsumm_all,simsumm)
+#'     }
+#'     if(numproposals>=number_sim) {list(numproposals);stop('a particle got stucked');}
+#'     return(list(numproposals,distance,parameters))# return(list(numproposals,distance,parameters,simsumm_all))
+#'   }
+#'   eval_time <- toc()
+#'
+#' return(RES)}
 
 
 #'@rdname abcpilot
@@ -338,6 +341,7 @@ abcpilot<- function (data, Pr_cont,extra_model,numsim, whichprior = 'unif',subsa
     Theta0[,1]<- parameters[1:N]
     K<-KmatrixgivenLc(N,parameters[N+1],parameters[N+2])
     Rho<-matrix(parameters[-(1:nfreepar_c)],nrow=N,byrow=T)
+    for(I in 1:N) Rho[I,I]<-Inf
     simdata <- model(N, grid, h, startv, dGamma,dSigma, Theta0,Rho,K); #// simulate from the model
     simdata<- simdata[,seq(1,ndata,by=subsamplingby)]
     summaries_Y<-abc_summaries_X(simdata,T,h,summaries_extra)
