@@ -50,19 +50,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// perturb_sample_discrete_
-NumericVector perturb_sample_discrete_(int N, NumericVector hat_p_vec, double stay_prob);
-RcppExport SEXP _SMCABCnJRNMM_perturb_sample_discrete_(SEXP NSEXP, SEXP hat_p_vecSEXP, SEXP stay_probSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type hat_p_vec(hat_p_vecSEXP);
-    Rcpp::traits::input_parameter< double >::type stay_prob(stay_probSEXP);
-    rcpp_result_gen = Rcpp::wrap(perturb_sample_discrete_(N, hat_p_vec, stay_prob));
-    return rcpp_result_gen;
-END_RCPP
-}
 // nJRNMM_prior_
 NumericVector nJRNMM_prior_(NumericVector theta, int draw, NumericMatrix Pr_cont);
 RcppExport SEXP _SMCABCnJRNMM_nJRNMM_prior_(SEXP thetaSEXP, SEXP drawSEXP, SEXP Pr_contSEXP) {
@@ -93,7 +80,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_SMCABCnJRNMM_Kmatrix_", (DL_FUNC) &_SMCABCnJRNMM_Kmatrix_, 5},
     {"_SMCABCnJRNMM_KmatrixgivenLc_", (DL_FUNC) &_SMCABCnJRNMM_KmatrixgivenLc_, 3},
     {"_SMCABCnJRNMM_perturb_continuous_", (DL_FUNC) &_SMCABCnJRNMM_perturb_continuous_, 2},
-    {"_SMCABCnJRNMM_perturb_sample_discrete_", (DL_FUNC) &_SMCABCnJRNMM_perturb_sample_discrete_, 3},
     {"_SMCABCnJRNMM_nJRNMM_prior_", (DL_FUNC) &_SMCABCnJRNMM_nJRNMM_prior_, 3},
     {"_SMCABCnJRNMM_model_", (DL_FUNC) &_SMCABCnJRNMM_model_, 2},
     {NULL, NULL, 0}

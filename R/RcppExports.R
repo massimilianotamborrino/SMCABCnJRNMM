@@ -13,10 +13,6 @@ perturb_continuous_ <- function(theta_c_sampled, sigma_kernel) {
     .Call(`_SMCABCnJRNMM_perturb_continuous_`, theta_c_sampled, sigma_kernel)
 }
 
-perturb_sample_discrete_ <- function(N, hat_p_vec, stay_prob) {
-    .Call(`_SMCABCnJRNMM_perturb_sample_discrete_`, N, hat_p_vec, stay_prob)
-}
-
 nJRNMM_prior_ <- function(theta, draw, Pr_cont) {
     .Call(`_SMCABCnJRNMM_nJRNMM_prior_`, theta, draw, Pr_cont)
 }

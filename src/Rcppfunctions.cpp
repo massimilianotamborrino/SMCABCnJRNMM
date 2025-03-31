@@ -66,32 +66,32 @@ NumericVector perturb_continuous_(NumericVector theta_c_sampled, NumericMatrix s
     theta_c_perturbed=f_rmvn(1,theta_c_sampled,sigma_kernel);
   return(theta_c_perturbed);
 }
-
-
-// [[Rcpp::export]]
-NumericVector perturb_sample_discrete_(int N, NumericVector hat_p_vec,double stay_prob)
-{
-  NumericVector Rho(N*N);
-  NumericVector ber(2),ber2(2),ber3(2),perturb_prob(2);
-  ber[0]=1;
-  ber[1]=0;
-  ber3[0]=0;
-  ber3[1]=1;
-  perturb_prob[0]=stay_prob;
-  perturb_prob[1]=1-stay_prob;
-  int perturb=0;
-  int counter=0;
-  for(int j=0; j<N;++j){
-    for(int k=0;k<N;++k ){
-      counter=counter+1;
-      if(k!=j) {
-        ber2[0]=hat_p_vec[counter];
-        ber2[1]=1-ber2[0];
-        Rho[counter]=sample(ber,1,ber2)[0];
-        perturb=sample(ber3,1,perturb_prob)[0];
-        Rho[counter]=abs(Rho[counter]-perturb);
-        }}}
-  return(Rho);}
+//
+//
+// // [[Rcpp::export]]
+// NumericVector perturb_sample_discrete_(int N, NumericVector hat_p_vec,double stay_prob)
+// {
+//   NumericVector Rho(N*N);
+//   NumericVector ber(2),ber2(2),ber3(2),perturb_prob(2);
+//   ber[0]=1;
+//   ber[1]=0;
+//   ber3[0]=0;
+//   ber3[1]=1;
+//   perturb_prob[0]=stay_prob;
+//   perturb_prob[1]=1-stay_prob;
+//   int perturb=0;
+//   int counter=0;
+//   for(int j=0; j<N;++j){
+//     for(int k=0;k<N;++k ){
+//       counter=counter+1;
+//       if(k!=j) {
+//         ber2[0]=hat_p_vec[counter];
+//         ber2[1]=1-ber2[0];
+//         Rho[counter]=sample(ber,1,ber2)[0];
+//         perturb=sample(ber3,1,perturb_prob)[0];
+//         Rho[counter]=abs(Rho[counter]-perturb);
+//         }}}
+//   return(Rho);}
 
 // nJRNMM_prior_ computes the pdf of the uniform prior (if draw=0) or sample from it (if draw=1)
 // Input:  - theta, needed only if draw=0 to compute the corresponding pdf
@@ -101,15 +101,15 @@ NumericVector perturb_sample_discrete_(int N, NumericVector hat_p_vec,double sta
 NumericVector nJRNMM_prior_(NumericVector theta,int draw,NumericMatrix Pr_cont){
 
   int N=Pr_cont.rows()-2;
-  NumericVector ber(2);
-  ber[0]=0;
-  ber[1]=1;
   if(draw == 0){
     NumericVector out(1);
     out=1;
     for(int i=0;i<N+2;++i) {out=out*R::dunif(theta[i],Pr_cont(i,0),Pr_cont(i,1),false);}
     return(out);}
   else{
+    NumericVector ber(2);
+    ber[0]=1;
+    ber[1]=0;
     NumericVector out(N+2+pow(N,2)); // Here NDIM=
     for(int i=0;i<N+2;++i){
       out[i]=runif(1,Pr_cont(i,0),Pr_cont(i,1))[0];}

@@ -23,17 +23,6 @@ model <- function(N, grid, h, startv, dGamma,dSigma, Theta, Rho, K){
   return(model_(N,Y))
 }
 
-#'@rdname perturb_continuous
-#'@title perturb_continuous
-#'@description Sampling from the Gaussian Perturbation kernel for the continuous parameters
-#'@param Theta  Mean of the Gaussian perturbation kernel
-#'@param Sigma covariance matrix of the Gaussian perturbation kernel
-#'@return 1 sampled value from the Gaussian Perturbation kernel for the continuous parameters
-#'@export
-perturb_continuous <- function(Theta,Sigma){
-  return(perturb_continuous_(Theta,Sigma))
-  }
-
 #'@rdname KmatrixgivenLc
 #'@title Code to calculate the Kmatrix given L and c
 #'@description Sampling from the Gaussian Perturbation kernel for the continuous parameters
