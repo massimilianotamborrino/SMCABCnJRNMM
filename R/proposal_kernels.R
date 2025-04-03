@@ -14,6 +14,17 @@ perturb_continuous <- function(Theta,Sigma){
   return(perturb_continuous_(Theta,Sigma))
 }
 
+#'@rdname perturb_continuous_withinprior
+#'@title perturb_continuous_withinprior
+#'@description Sampling from the Gaussian Perturbation kernel for the continuous parameters, repeated until the sampled values are within the prior region
+#'@param Theta  Mean of the Gaussian perturbation kernel
+#'@param Sigma covariance matrix of the Gaussian perturbation kernel
+#'@param Pr_cont Matrix of lower/upper bounds for the uniform priors for the continuous parameters
+#'@return 1 sampled value from the Gaussian Perturbation kernel for the continuous parameters
+#'@export
+perturb_continuous_withinprior <- function(Theta,Sigma,Pr_cont){
+  return(perturb_continuous_withinprior_(Theta,Sigma,Pr_cont))
+}
 #'@rdname perturb_discrete
 #'@title perturb_discrete
 #'@description Sampling from a Bernoulli distribution, with a further perturbation on the sampled value according to a q_stay probability
@@ -42,4 +53,4 @@ perturb_discrete <- function(N,pvec,stay_prob){
   return(Rho)}
 
 
- 
+

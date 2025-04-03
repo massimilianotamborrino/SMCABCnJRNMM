@@ -44,18 +44,18 @@ NumericMatrix KmatrixgivenLc_(int N, double L, double c)
 };
 
 // //------------------------------------------------------------------------------
-// // [[Rcpp::export]]
-// NumericVector perturb_continuous_(NumericVector theta_c_sampled, NumericMatrix sigma_kernel, NumericMatrix Pr_cont)
-// {
-//   NumericVector theta_c_perturbed(theta_c_sampled.size());
-//   int flag=1;
-//   Function f_rmvn("rmvn");
-//   while(flag>0){
-//   theta_c_perturbed=f_rmvn(1,theta_c_sampled,sigma_kernel);
-//   flag=sum((theta_c_perturbed<=Pr_cont(_,0))|(theta_c_perturbed>=Pr_cont(_,1)));
-//   }
-//   return(theta_c_perturbed);
-// }
+ // [[Rcpp::export]]
+ NumericVector perturb_continuous_withinprior_(NumericVector theta_c_sampled, NumericMatrix sigma_kernel, NumericMatrix Pr_cont)
+ {
+   NumericVector theta_c_perturbed(theta_c_sampled.size());
+   int flag=1;
+   Function f_rmvn("rmvn");
+   while(flag>0){
+   theta_c_perturbed=f_rmvn(1,theta_c_sampled,sigma_kernel);
+   flag=sum((theta_c_perturbed<=Pr_cont(_,0))|(theta_c_perturbed>=Pr_cont(_,1)));
+   }
+   return(theta_c_perturbed);
+ }
 
 //------------------------------------------------------------------------------
 // [[Rcpp::export]]
@@ -66,6 +66,7 @@ NumericVector perturb_continuous_(NumericVector theta_c_sampled, NumericMatrix s
     theta_c_perturbed=f_rmvn(1,theta_c_sampled,sigma_kernel);
   return(theta_c_perturbed);
 }
+
 //
 //
 // // [[Rcpp::export]]

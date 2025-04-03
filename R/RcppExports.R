@@ -9,6 +9,10 @@ KmatrixgivenLc_ <- function(N, L, c) {
     .Call(`_SMCABCnJRNMM_KmatrixgivenLc_`, N, L, c)
 }
 
+perturb_continuous_withinprior_ <- function(theta_c_sampled, sigma_kernel, Pr_cont) {
+    .Call(`_SMCABCnJRNMM_perturb_continuous_withinprior_`, theta_c_sampled, sigma_kernel, Pr_cont)
+}
+
 perturb_continuous_ <- function(theta_c_sampled, sigma_kernel) {
     .Call(`_SMCABCnJRNMM_perturb_continuous_`, theta_c_sampled, sigma_kernel)
 }

@@ -38,6 +38,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// perturb_continuous_withinprior_
+NumericVector perturb_continuous_withinprior_(NumericVector theta_c_sampled, NumericMatrix sigma_kernel, NumericMatrix Pr_cont);
+RcppExport SEXP _SMCABCnJRNMM_perturb_continuous_withinprior_(SEXP theta_c_sampledSEXP, SEXP sigma_kernelSEXP, SEXP Pr_contSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type theta_c_sampled(theta_c_sampledSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type sigma_kernel(sigma_kernelSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type Pr_cont(Pr_contSEXP);
+    rcpp_result_gen = Rcpp::wrap(perturb_continuous_withinprior_(theta_c_sampled, sigma_kernel, Pr_cont));
+    return rcpp_result_gen;
+END_RCPP
+}
 // perturb_continuous_
 NumericVector perturb_continuous_(NumericVector theta_c_sampled, NumericMatrix sigma_kernel);
 RcppExport SEXP _SMCABCnJRNMM_perturb_continuous_(SEXP theta_c_sampledSEXP, SEXP sigma_kernelSEXP) {
@@ -79,6 +92,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_SMCABCnJRNMM_Kmatrix_", (DL_FUNC) &_SMCABCnJRNMM_Kmatrix_, 5},
     {"_SMCABCnJRNMM_KmatrixgivenLc_", (DL_FUNC) &_SMCABCnJRNMM_KmatrixgivenLc_, 3},
+    {"_SMCABCnJRNMM_perturb_continuous_withinprior_", (DL_FUNC) &_SMCABCnJRNMM_perturb_continuous_withinprior_, 3},
     {"_SMCABCnJRNMM_perturb_continuous_", (DL_FUNC) &_SMCABCnJRNMM_perturb_continuous_, 2},
     {"_SMCABCnJRNMM_nJRNMM_prior_", (DL_FUNC) &_SMCABCnJRNMM_nJRNMM_prior_, 3},
     {"_SMCABCnJRNMM_model_", (DL_FUNC) &_SMCABCnJRNMM_model_, 2},
