@@ -375,14 +375,14 @@ SMCABCnJRNMM_acceptrate2<- function (data, Pr_cont,stay_prob,extra_model, ABCthr
       while(distance>=ABCthreshold_new & numproposals<number_sim){
 
         index <- sample(1:length(norm_weights_c),size=1,prob=norm_weights_c);#needed to compute the mean of the proposal sampler
-        if(sampling=='standard') theta_c <- perturb_continuous_withinprior(ABCdraws_c[,index],Sigma)
+        if(sampling=='standard') theta_c <- perturb_continuous_withinprior(ABCdraws_c[,index],Sigma,Pr_cont)
           else if(sampling=='olcm') {
             cov_olcm <-matrix(0, nrow=nfreepar_c,ncol=nfreepar_c);
             for(jj in 1:N0) cov_olcm <- cov_olcm + normweights_olcm[jj]*(ABCdraws_c[,id_olcm[jj]]-ABCdraws_c[,index])%*%t(ABCdraws_c[,id_olcm[jj]]-ABCdraws_c[,index]);
             cov_olcm <- (cov_olcm+t(cov_olcm))/2;
             if(isposdef(cov_olcm)==0) cov_olcm<-nearPD(cov_olcm,base.matrix=TRUE)$mat  # This IF statement is useful if the proposal_cov is not definite positive
             #    % the above covariance is not "global" but is instead specific for the sampled particle
-            theta_c <- perturb_continuous_withinprior(ABCdraws_c[,index],cov_olcm)}
+            theta_c <- perturb_continuous_withinprior(ABCdraws_c[,index],cov_olcm,Pr_cont)}
           prior <- problemprior(theta_c,0,Pr_cont,whichprior); #% evaluate prior
         numproposals <- numproposals +1;
         #sample from the discrete kernel and perturb it according to q_stay
