@@ -17,8 +17,8 @@ perturb_continuous_ <- function(theta_c_sampled, sigma_kernel) {
     .Call(`_SMCABCnJRNMM_perturb_continuous_`, theta_c_sampled, sigma_kernel)
 }
 
-nJRNMM_prior_ <- function(theta, draw, Pr_cont) {
-    .Call(`_SMCABCnJRNMM_nJRNMM_prior_`, theta, draw, Pr_cont)
+nJRNMM_prior_ <- function(theta, draw, Pr_cont, N) {
+    .Call(`_SMCABCnJRNMM_nJRNMM_prior_`, theta, draw, Pr_cont, N)
 }
 
 model_ <- function(N, sol) {

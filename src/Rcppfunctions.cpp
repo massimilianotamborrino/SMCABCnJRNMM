@@ -99,22 +99,21 @@ NumericVector perturb_continuous_(NumericVector theta_c_sampled, NumericMatrix s
 // Output: - out, pdf of the uniform prior (if draw=0) or sample from it (if draw=1)
 
 // [[Rcpp::export]]
-NumericVector nJRNMM_prior_(NumericVector theta,int draw,NumericMatrix Pr_cont){
-
-  int N=Pr_cont.rows()-2;
+NumericVector nJRNMM_prior_(NumericVector theta,int draw,NumericMatrix Pr_cont, int N){
+  int L=Pr_cont.rows();
   if(draw == 0){
     NumericVector out(1);
     out=1;
-    for(int i=0;i<N+2;++i) {out=out*R::dunif(theta[i],Pr_cont(i,0),Pr_cont(i,1),false);}
+    for(int i=0;i<L;++i) {out=out*R::dunif(theta[i],Pr_cont(i,0),Pr_cont(i,1),false);}
     return(out);}
   else{
     NumericVector ber(2);
     ber[0]=1;
     ber[1]=0;
-    NumericVector out(N+2+pow(N,2)); // Here NDIM=
-    for(int i=0;i<N+2;++i){
+    NumericVector out(L+pow(N,2)); // Here NDIM=
+    for(int i=0;i<L;++i){
       out[i]=runif(1,Pr_cont(i,0),Pr_cont(i,1))[0];}
-    for(int i=N+2;i<N+2+pow(N,2);++i){
+    for(int i=L;i<L+pow(N,2);++i){
       out[i]=sample(ber,1)[0];
     }
     return(out);

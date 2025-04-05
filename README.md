@@ -14,8 +14,8 @@ The main routine is "SMCABCnJRNMM_acceptrate.R", which performs nSMC-ABC with au
 
 
 # How to install the package
-* Tools/Install packages/ select the source folder
-*To update The simplest way is to do it via devtools, using devtools::install_github("massimilianotamborrino/SMCABCnJRNMM")
+
+* The simplest way is to install the package is via devtools, using devtools::install_github("massimilianotamborrino/SMCABCnJRNMM")
 
 # Output of "SMCABCnJRNMM_acceptrate.R"
 The output files (see below) will be saved in the user-specified folder, and will contain information on iteration-stage (t) and attempt. 

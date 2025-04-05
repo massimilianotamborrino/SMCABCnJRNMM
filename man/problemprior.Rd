@@ -4,7 +4,7 @@
 \alias{problemprior}
 \title{problemprior}
 \usage{
-problemprior(theta, draw, Pr_cont, whichprior = "unif")
+problemprior(theta, draw, Pr_cont, N, whichprior = "unif")
 }
 \arguments{
 \item{theta}{Parameter Vector;}
@@ -14,7 +14,9 @@ Draw =1 if we want to sample from the priors}
 
 \item{Pr_cont}{Matrix of lower/upper bounds for the uniform priors for the continuous parameters}
 
-\item{whichprior}{1 uniform, 2 lognormal, 3 exponential}
+\item{N}{number of populations of neurons}
+
+\item{whichprior}{1 uniform}
 }
 \value{
 Simulation of observations from all models (for draw=1) or pdf of the priors (for draw=0), returned as vector;

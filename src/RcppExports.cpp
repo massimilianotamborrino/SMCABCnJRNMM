@@ -64,15 +64,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // nJRNMM_prior_
-NumericVector nJRNMM_prior_(NumericVector theta, int draw, NumericMatrix Pr_cont);
-RcppExport SEXP _SMCABCnJRNMM_nJRNMM_prior_(SEXP thetaSEXP, SEXP drawSEXP, SEXP Pr_contSEXP) {
+NumericVector nJRNMM_prior_(NumericVector theta, int draw, NumericMatrix Pr_cont, int N);
+RcppExport SEXP _SMCABCnJRNMM_nJRNMM_prior_(SEXP thetaSEXP, SEXP drawSEXP, SEXP Pr_contSEXP, SEXP NSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
     Rcpp::traits::input_parameter< int >::type draw(drawSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type Pr_cont(Pr_contSEXP);
-    rcpp_result_gen = Rcpp::wrap(nJRNMM_prior_(theta, draw, Pr_cont));
+    Rcpp::traits::input_parameter< int >::type N(NSEXP);
+    rcpp_result_gen = Rcpp::wrap(nJRNMM_prior_(theta, draw, Pr_cont, N));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -94,7 +95,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_SMCABCnJRNMM_KmatrixgivenLc_", (DL_FUNC) &_SMCABCnJRNMM_KmatrixgivenLc_, 3},
     {"_SMCABCnJRNMM_perturb_continuous_withinprior_", (DL_FUNC) &_SMCABCnJRNMM_perturb_continuous_withinprior_, 3},
     {"_SMCABCnJRNMM_perturb_continuous_", (DL_FUNC) &_SMCABCnJRNMM_perturb_continuous_, 2},
-    {"_SMCABCnJRNMM_nJRNMM_prior_", (DL_FUNC) &_SMCABCnJRNMM_nJRNMM_prior_, 3},
+    {"_SMCABCnJRNMM_nJRNMM_prior_", (DL_FUNC) &_SMCABCnJRNMM_nJRNMM_prior_, 4},
     {"_SMCABCnJRNMM_model_", (DL_FUNC) &_SMCABCnJRNMM_model_, 2},
     {NULL, NULL, 0}
 };
