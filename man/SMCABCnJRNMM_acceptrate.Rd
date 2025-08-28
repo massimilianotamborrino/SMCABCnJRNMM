@@ -43,7 +43,7 @@ SMCABCnJRNMM_acceptrate(
 
 \item{folder}{specify the folder where the results are going to be saved in}
 
-\item{whichprior}{choose between 'unif','lognormal' and and 'exp'}
+\item{whichprior}{choose between 'unif','lognormal' and 'exp'}
 
 \item{subsamplingby}{every how many simulated points the observation should be taken. The default=1, i.e., no subsampling}
 }
