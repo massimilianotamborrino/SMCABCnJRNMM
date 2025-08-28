@@ -25,19 +25,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// KmatrixgivenLc_
-NumericMatrix KmatrixgivenLc_(int N, double L, double c);
-RcppExport SEXP _SMCABCnJRNMM_KmatrixgivenLc_(SEXP NSEXP, SEXP LSEXP, SEXP cSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    Rcpp::traits::input_parameter< double >::type L(LSEXP);
-    Rcpp::traits::input_parameter< double >::type c(cSEXP);
-    rcpp_result_gen = Rcpp::wrap(KmatrixgivenLc_(N, L, c));
-    return rcpp_result_gen;
-END_RCPP
-}
 // perturb_continuous_withinprior_
 NumericVector perturb_continuous_withinprior_(NumericVector theta_c_sampled, NumericMatrix sigma_kernel, NumericMatrix Pr_cont);
 RcppExport SEXP _SMCABCnJRNMM_perturb_continuous_withinprior_(SEXP theta_c_sampledSEXP, SEXP sigma_kernelSEXP, SEXP Pr_contSEXP) {
@@ -92,7 +79,6 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_SMCABCnJRNMM_Kmatrix_", (DL_FUNC) &_SMCABCnJRNMM_Kmatrix_, 5},
-    {"_SMCABCnJRNMM_KmatrixgivenLc_", (DL_FUNC) &_SMCABCnJRNMM_KmatrixgivenLc_, 3},
     {"_SMCABCnJRNMM_perturb_continuous_withinprior_", (DL_FUNC) &_SMCABCnJRNMM_perturb_continuous_withinprior_, 3},
     {"_SMCABCnJRNMM_perturb_continuous_", (DL_FUNC) &_SMCABCnJRNMM_perturb_continuous_, 2},
     {"_SMCABCnJRNMM_nJRNMM_prior_", (DL_FUNC) &_SMCABCnJRNMM_nJRNMM_prior_, 4},

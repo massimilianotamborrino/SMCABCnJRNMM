@@ -24,9 +24,10 @@ model(N, grid, h, startv, dGamma, dSigma, Theta, Rho, K)
 \item{Rho}{matrix of {0,1} discrete parameters}
 
 \item{K}{Matrix of strength parameters
-#'@return path of the stochastic N-population JRNMM}
+#'@return Observed output process from the stochastic N-population JRNMM}
 }
 \description{
 (faster version of the) Strang splitting method for path simulation of the
-stochastic multi-population JRNMM
+observed output process from the stochastic multi-population JRNMM. This is analogous
+to the observedJRNMM routine in the StrangSplitting R package
 }

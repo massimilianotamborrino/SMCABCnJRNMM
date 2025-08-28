@@ -26,23 +26,6 @@ List Kmatrix_(int N, double Pr1, double Pr2, double Pr3, double Pr4)
 return outputL;
 };
 
-// [[Rcpp::export]]
-NumericMatrix KmatrixgivenLc_(int N, double L, double c)
-{
-  double K_value;
-  NumericMatrix K(N,N);
-  for(int j=0;j<N-1;++j){
-    K(j,j)=R_PosInf;
-    for(int k=j+1;k<N;++k){
-      K_value=pow(c,abs(k-j)-1)*L;
-      K(j,k)=K_value;
-      K(k,j)=K_value;
-    }
-    K(N-1,N-1)=R_PosInf;
-  }
-  return K;
-};
-
 // //------------------------------------------------------------------------------
  // [[Rcpp::export]]
  NumericVector perturb_continuous_withinprior_(NumericVector theta_c_sampled, NumericMatrix sigma_kernel, NumericMatrix Pr_cont)
