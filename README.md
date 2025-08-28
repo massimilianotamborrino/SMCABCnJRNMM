@@ -1,7 +1,7 @@
 # SMCABCnJRNMM
 
 R package for the inference of relevant real-valued model parameters and $\{0,1\}$-valued network parameter of N populations of Jansen-and-Rit Neural Mass Models (JRNMM) proposed in 
-[1] S. Ditlevsen, M. Tamborrino, I. Tubikanec. Network Inference via Approximate Bayesian Computation. Illustration on a stochastic multi-population Neural Mass Model. Preprint at ArXiv: 2306.15787v2 https://arxiv.org/abs/2306.15787 
+[1] S. Ditlevsen, M. Tamborrino, I. Tubikanec. Network Inference via Approximate Bayesian Computation. Illustration on a stochastic multi-population Neural Mass Model. To appear in the Annals of Applied Statistics. Preprint at ArXiv: 2306.15787 https://arxiv.org/abs/2306.15787 
 
 The inference is based on an adapted Sequential Monte Carlo Approximate Bayesian computation (SMC-ABC) algorithm, with a proposal sampler accounting for both continuous and binary parameters (adapted in that sense). While applied to the N populations of JRNMM, the method presented in [1], see Algorithm 1, is more general, being a SMC-ABC scheme for network inference (which we denoted nSMCABC).
 
